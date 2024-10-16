@@ -1,82 +1,52 @@
 Bootstrap: docker
-From: gcfntnu/scanpy
+From: ubuntu:latest
 
 %post
-    # Update and install essential packages
-    apk update && apk add --no-cache \
-        bash \
-        build-base \
-        curl \
-        openblas-dev \
-        gfortran \
-        python3 \
-        py3-pip \
-        python3-dev \
-        py3-setuptools \
-        py3-wheel \
-        libxml2-dev \
-        libcurl \
-        curl-dev \
-        linux-headers \
-        zeromq-dev \
-        gcc \
-        g++ \
-        gfortran \
-        libffi-dev \
-        openssl-dev \
-        make \
-        cmake \
-        git
-
-    # the system packages for the eco system
-    apk add --no-cache \
-        hdf5 hdf5-dev \
-        
-
-    # Allow pip to modify system-wide packages
+    # install the basics using apt
+    export PYTHONNOUSERSITE="true"
     export PIP_BREAK_SYSTEM_PACKAGES=1
+ 
+    apt update
+    apt install -y python3-llvmlite python3-pip \
+       curl wget vim locales bash 
+
+    ## the analysis packages
+    pip install scanpy muon \
+      scvi-tools scirpy \
+      squidpy scVelo
+
+    ## the jupyter-lab
+    pip install jupyterlab papermill nbconvert
+
+
+    # Install micromamba
+    curl -L micro.mamba.pm/install.sh -o install_micromamba.sh
+    BIN_FOLDER=/usr/local/bin INIT_YES=no CONDA_FORGE_YES=yes bash install_micromamba.sh
+
+    # Extract the Python version
+    PyVer=$(python3 --version | awk '{print $2}')
+    micromamba create -p /micromamba -y python=$PyVer
+    eval "$(micromamba shell hook --shell posix)"
+    micromamba activate /micromamba
+    pip install cellphonedb 
+    micromamba install -p /micromamba ipykernel -y
+    python -m ipykernel install --user --name=myenv --display-name "CellPhoneDB"
+
+    # my start script
+    mkdir /workspace
+    echo "jupyter lab --port 9734 --ip=0.0.0.0 --allow-root --no-browser" > /workspace/launch_jupyter.sh
+    chmod +x /workspace/launch_jupyter.sh
     
-    # Install JupyterLab and related Python packages
-    pip install --no-cache-dir --upgrade pip
-    pip install --no-cache-dir \
-        jupyterlab \
-        nbconvert \
-        papermill \
-        numpy \
-        scipy \
-        pandas \
-        matplotlib \
-        seaborn \
-        notebook
-
-    # The eco system
-    pip install --no-cache-dir \
-        muon scvi-tools \
-        libedit clang clang-dev llvm-dev \
-        
-    wget https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.0/llvm-14.0.0.src.tar.xz
-    tar -xf llvm-14.0.0.src.tar.xz
-    wget https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.0/llvm-project-14.0.0.src.tar.xz
-    tar -xf llvm-project-14.0.0.src.tar.xz
-    cd llvm-project-14.0.0.src
-    mkdir llvm-build && cd llvm-build
-    cmake -G "Unix Makefiles" -DLLVM_ENABLE_PROJECTS="clang" -DCMAKE_BUILD_TYPE=Release ../llvm
-    make -j$(nproc)
-
-
-    # Clean up
-    apk del build-base
-    rm -rf /var/cache/apk/*
-
 %environment
     # Set environment variables
-    export PATH=$PATH:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/usr/local/lib/R/bin
+    export PATH=$PATH:/micromamba/bin:/opt/micromamba/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/usr/local/lib/R/bin
     export PIP_BREAK_SYSTEM_PACKAGES=1
+    export CONDA_AUTO_ACTIVATE_BASE=false
 
 %runscript
     # This is the default command when the container is run
-    exec jupyter lab --ip=0.0.0.0 --no-browser --allow-root
+    /workspace/launch_jupyter.sh
 
 %test
     # Test if JupyterLab is installed correctly
-    jupyter --version
+    #jupyter --version
