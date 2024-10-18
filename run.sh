@@ -14,5 +14,5 @@ fi
 
 # Run the image
 echo "Running ${IMAGE_NAME}..."
-apptainer run "${IMAGE_PATH}/${IMAGE_NAME}"
+apptainer exec "${IMAGE_PATH}/${IMAGE_NAME}" jupyter lab --port 9734 --ip=0.0.0.0 --allow-root --no-browser
 

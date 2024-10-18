@@ -8,12 +8,13 @@ From: ubuntu:latest
  
     apt update
     apt install -y python3-llvmlite python3-pip \
-       curl wget vim locales bash 
+       curl wget vim locales bash cmake rustup libhdf5-dev 
 
     ## the analysis packages
     pip install scanpy muon \
       scvi-tools scirpy \
-      squidpy scVelo
+      squidpy scVelo \
+      velocyto
 
     ## the jupyter-lab
     pip install jupyterlab papermill nbconvert
@@ -31,6 +32,9 @@ From: ubuntu:latest
     pip install cellphonedb 
     micromamba install -p /micromamba ipykernel -y
     python -m ipykernel install --user --name=myenv --display-name "CellPhoneDB"
+
+    rustup install stable
+    cargo install --git https://github.com/stela2502/bam_re_tagger  --root /usr/local
 
     # my start script
     mkdir /workspace

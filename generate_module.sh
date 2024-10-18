@@ -65,7 +65,7 @@ if bind_paths ~= "" then
 end
 
 -- this happens at load
-execute{cmd="singularity run "..bind_paths.." ".. base.. "/${IMAGE_NAME}_v".. version ..".sif",modeA={"load"}}
+execute{cmd="singularity exec "..bind_paths.." ".. base.. "/${IMAGE_NAME}_v".. version ..".sif jupyter lab --port 9734 --ip=0.0.0.0 --allow-root --no-browser ",modeA={"load"}}
 
 
 -- this happens at unload
