@@ -8,13 +8,16 @@ From: ubuntu:latest
  
     apt update
     apt install -y python3-llvmlite python3-pip \
-       curl wget vim locales bash cmake rustup libhdf5-dev 
+       curl wget vim locales bash cmake rustup libhdf5-dev \
+       samtools
+
+   ## samtools is needed for the velocyto analysis - I assume.
 
     ## the analysis packages
     pip install scanpy muon \
       scvi-tools scirpy \
       squidpy scVelo \
-      velocyto
+      velocyto pymde
 
     ## the jupyter-lab
     pip install jupyterlab papermill nbconvert
