@@ -6,3 +6,4 @@ ScanpyEcoSys/
 *.sif
 *.ipynb
 build*
+fasterq*
