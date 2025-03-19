@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Variables
-VERSION=1.1
+VERSION=1.2
 IMAGE_NAME="ScanpyEcoSys_v${VERSION}.sif"
 SCRIPT=$(readlink -f $0)
 IMAGE_PATH=`dirname $SCRIPT`

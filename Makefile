@@ -1,5 +1,5 @@
 # Variables
-VERSION := 1.1
+VERSION := 1.2
 IMAGE_NAME := ScanpyEcoSys_v$(VERSION).sif
 SANDBOX_DIR := ScanpyEcoSys
 DEFINITION_FILE := ScanpyEcoSys.def
@@ -31,7 +31,8 @@ restart:
 # Build the .sif image from the definition file or sandbox
 build:
 	@echo "Building $(IMAGE_NAME) from $(SANDBOX_DIR)..."
-	sudo apptainer build $(IMAGE_NAME) $(SANDBOX_DIR)
+	export APPTAINER_TMPDIR=/mnt/data2/TMP
+	sudo  APPTAINER_TMPDIR=/mnt/data2/TMP apptainer build $(IMAGE_NAME) $(SANDBOX_DIR)
 	@sed -i 's/VERSION=.*/VERSION=${VERSION}/' run.sh
 
 direct:

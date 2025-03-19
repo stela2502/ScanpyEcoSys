@@ -12,7 +12,7 @@ From: ubuntu:latest
  
     apt update
     apt install -y python3-llvmlite python3-pip \
-       curl wget vim locales bash cmake rustup libhdf5-dev \
+       curl wget vim locales bash cmake libhdf5-dev \
        samtools
 
    ## for numpy I need the c libs:
@@ -20,15 +20,18 @@ From: ubuntu:latest
         build-essential \
         libopenblas-dev \
         liblapack-dev \
-        libatlas-base-dev
+        libatlas-base-dev git
 
    ## samtools is needed for the velocyto analysis - I assume.
 
     ## the analysis packages
-    pip install numpy scanpy muon \
+    ## Unbelivable - but velocyto needs that to even be able to install - CRAP!
+    pip install numpy cython pandas 
+    pip install scanpy muon \
       scvi-tools scirpy \
       squidpy scVelo \
-      velocyto pymde scib_metrics 
+      velocyto pymde scib_metrics \
+      spatialdata seaborn scanorama 
 
     ## INSTALL A SET OF mds ALGORITHMS
     pip install phate trimap \
@@ -38,7 +41,7 @@ From: ubuntu:latest
     pip install jupyterlab papermill nbconvert tqdm ipywidgets
 
     ## monitor GPU and CPU usage of a process over time
-    pip install psutil time pynvml
+    pip install psutil pynvml
 
 
     # Install micromamba
@@ -54,11 +57,7 @@ From: ubuntu:latest
     micromamba install -p /micromamba ipykernel -y
     python -m ipykernel install --user --name=myenv --display-name "CellPhoneDB"
 
-    pip install git+https://github.com/Nayrouz109/dca.git
-
-
-    rustup install stable
-    cargo install --git https://github.com/stela2502/bam_re_tagger  --root /usr/local
+    ## pip install git+https://github.com/Nayrouz109/dca.git ## outdated!
 
     # my start script
     mkdir /workspace
