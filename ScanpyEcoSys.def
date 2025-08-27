@@ -50,14 +50,14 @@ From: ubuntu:latest
 
     # Extract the Python version
     PyVer=$(python3 --version | awk '{print $2}')
-    micromamba create -p /micromamba -y python=$PyVer
+    micromamba create -p /micromamba -y python=$PyVer -n cellphonedb
     eval "$(micromamba shell hook --shell posix)"
-    micromamba activate /micromamba
-    pip install cellphonedb 
-    micromamba install -p /micromamba ipykernel -y
+    micromamba activate cellphonedb
+    pip install cellphonedb jupyter ipykernel
     python -m ipykernel install --user --name=myenv --display-name "CellPhoneDB"
 
     ## pip install git+https://github.com/Nayrouz109/dca.git ## outdated!
+    pip install git+https://github.com/stela2502/ScanpyAutoAnalyzer
 
     # my start script
     mkdir /workspace
