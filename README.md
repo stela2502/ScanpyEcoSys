@@ -64,13 +64,13 @@ The provided `Makefile` handles both a sandbox (writable directory) and a final 
 sudo make restart build
 ```
 
-* `make restart` – cleans any old build  
-* `make build`   – creates the sandbox and then the `.sif` image from `ScanpyEcoSys.def`
+* `make restart` – creates the sanbox from the definition file  
+* `make build`   – creates the `.sif` image from `ScanpyEcoSys.def`
 
 After completion you will have:
 
-* `ScanpyEcoSys.sif` – the Apptainer image  
-* a `sandbox/` directory – a writable build directory (optional)
+* `ScanpyEcoSys_v<version>.sif` – the Apptainer image  
+* a `sandbox/` directory – a writable build directory
 
 ### 3️⃣ Test the Image
 ```bash
@@ -82,7 +82,7 @@ apptainer run ScanpyEcoSys.sif
 
 ## Getting Started
 
-After blding the image:
+After building the image:
 ```bash
 apptainer run ScanpyEcoSys_1.5.sif
 ```
