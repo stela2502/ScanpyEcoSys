@@ -41,7 +41,7 @@ From: ubuntu:latest
     pip install jupyterlab papermill nbconvert tqdm ipywidgets
 
     ## monitor GPU and CPU usage of a process over time
-    pip install psutil pynvml
+    pip install psutil pynvml harmony autotime
 
 
     # Install micromamba

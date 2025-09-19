@@ -14,5 +14,7 @@ fi
 
 # Run the image
 echo "Running ${IMAGE_NAME}..."
+unset PYTHONPATH
+unset PYTHONHOME
 apptainer exec "${IMAGE_PATH}/${IMAGE_NAME}" jupyter lab --port 9734 --ip=0.0.0.0 --allow-root --no-browser
 
