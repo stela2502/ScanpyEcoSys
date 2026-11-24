@@ -64,7 +64,7 @@ The provided `Makefile` handles both a sandbox (writable directory) and a final 
 sudo make restart build
 ```
 
-* `make restart` – creates the sanbox from the definition file  
+* `make restart` – creates the sandbox from the definition file  
 * `make build`   – creates the `.sif` image from `ScanpyEcoSys.def`
 
 After completion you will have:
