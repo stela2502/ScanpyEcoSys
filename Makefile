@@ -1,5 +1,5 @@
 # Variables
-VERSION := 1.2
+VERSION := 1.3
 IMAGE_NAME := ScanpyEcoSys_v$(VERSION).sif
 SANDBOX_DIR := ScanpyEcoSys
 DEFINITION_FILE := ScanpyEcoSys.def
